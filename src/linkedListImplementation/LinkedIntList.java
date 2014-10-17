@@ -11,8 +11,7 @@ public class LinkedIntList {
 	}
 	
 	public void add(int value) {
-		this.length++;
-		if (front == null) {
+		if (length() == 0) {
 			front = new LinkedIntListNode(value);
 		} else {
 			LinkedIntListNode current = front;
@@ -21,6 +20,45 @@ public class LinkedIntList {
 			}
 			current.setNext(new LinkedIntListNode(value));
 		}
+		this.length++;
+	}
+	
+	public void remove(int value) {
+		if (length() != 0) {
+			LinkedIntListNode current = front;
+			if (front.getValue() == value) {
+				front = front.getNext();
+				this.length--;
+			} else {
+				while (current.getNext() != null && current.getNext().getValue() != value) {
+					current = current.getNext();
+				}
+				if (current.getNext() != null) {
+					this.length--;
+					current.setNext(current.getNext().getNext());
+				}
+			}
+		}
+	}
+	
+	public void removeAll(int value) {
+		if (length() != 0) {
+			while (front != null && front.getValue() == value) {
+				front = front.getNext();
+				this.length--;
+			}
+			if (length() != 0) {
+				LinkedIntListNode current = front;
+				while (current.getNext() != null) {
+					if (current.getNext().getValue() == value) {
+						this.length--;
+						current.setNext(current.getNext().getNext());
+					} else {
+						current = current.getNext();
+					}
+				}
+			}
+		}
 	}
 	
 	public int length() {
@@ -28,12 +66,14 @@ public class LinkedIntList {
 	}
 	
 	public String toString() {
-		if (front != null) {
+		if (length() != 0) {
 			LinkedIntListNode current = front;
-			StringBuffer linkedIntList = new StringBuffer();
-			linkedIntList.append(String.format("%i", current.getValue()));
+			StringBuilder linkedIntList = new StringBuilder();
+			linkedIntList.append(current.getValue());
 			while (current.getNext() != null) {
-				linkedIntList.append(String.format(" -> %i", current.getValue()));
+				linkedIntList.append(" -> ");
+				linkedIntList.append(current.getNext().getValue());
+				current = current.getNext();
 			}
 			return linkedIntList.toString();
 		} else {

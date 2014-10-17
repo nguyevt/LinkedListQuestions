@@ -1,7 +1,7 @@
 package questions;
 
 public class QueueImplementation {
-
+	
 	//Constructor
 	
 	//Peek
